@@ -6,13 +6,6 @@ machine:
   post:
     - aws configure set default.region us-east-1
 
-dependencies:
- pre:
-  - sudo apt-get install xml2
-  - echo "app.build.num=${CIRCLE_BUILD_NUM}" >> server/src/main/resources/pom.properties
-  - echo "app.build.sha1=${CIRCLE_SHA1}" >> server/src/main/resources/pom.properties
-  - echo "app.build.timestamp=`date +%s`" >> server/src/main/resources/pom.properties
-
 # CircleCI also has some built-in environment variables; see:
 # https://circleci.com/docs/environment-variables
 deployment:
@@ -20,4 +13,4 @@ deployment:
     branch: master
     commands:
       - $(aws ecr get-login)
-      - export VERSION=$(xml2 < pom.xml  | grep /project/version= | sed 's/.*=//')_${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1} && build/build-docker.sh ${VERSION} ${CIRCLE_BRANCH}
+      - build/build-docker.sh
