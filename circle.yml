@@ -13,4 +13,5 @@ deployment:
     branch: master
     commands:
       - $(aws ecr get-login)
-      - build/build-docker.sh
+      - 7/jre8/build-docker.sh
+      - 7/jre8-alpine/build-docker.sh
